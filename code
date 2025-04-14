@@ -416,6 +416,9 @@ def display_win_screen(score):
 
                     return
 
+display_start_screen()
+
+run_game()
 
 
 
