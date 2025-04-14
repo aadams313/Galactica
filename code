@@ -104,21 +104,21 @@ class Enemy:
         return self.rect.top > screen_h
 
 
-def spawn_enemies():
+    def spawn_enemies():
 
-    return [Enemy(random.randint(0, screen_w - 50), random.randint(-1000, -200)) for _ in range(enemy_num)]
-
-
+        return [Enemy(random.randint(0, screen_w - 50), random.randint(-1000, -200)) for _ in range(enemy_num)]
 
 
 
-def display_start_screen():
 
-    screen.fill(bl)
 
-    title_text = large_font.render("Galactica", True, gr)
+    def display_start_screen():
 
-    instructions = [
+        screen.fill(bl)
+
+        title_text = large_font.render("Galactica", True, gr)
+
+        instructions = [
 
         "Welcome to Galactica!",
 
@@ -134,43 +134,43 @@ def display_start_screen():
 
 
 
-    screen.blit(title_text, (screen_w // 2 - title_text.get_width() // 2, screen_h // 4))
+        screen.blit(title_text, (screen_w // 2 - title_text.get_width() // 2, screen_h // 4))
 
 
 
-    y_offset = screen_h // 3
+        y_offset = screen_h // 3
 
-    for line in instructions:
+        for line in instructions:
 
-        instruction_text = font.render(line, True, wh)
+            instruction_text = font.render(line, True, wh)
 
-        screen.blit(instruction_text, (screen_w // 2 - instruction_text.get_width() // 2, y_offset))
+            screen.blit(instruction_text, (screen_w // 2 - instruction_text.get_width() // 2, y_offset))
 
-        y_offset += 40
-
-
-
-    pygame.display.flip()
+            y_offset += 40
 
 
 
-    waiting = True
+        pygame.display.flip()
 
-    while waiting:
 
-        for event in pygame.event.get():
 
-            if event.type == pygame.QUIT:
+        waiting = True
 
-                pygame.quit()
+        while waiting:
 
-                return
+            for event in pygame.event.get():
 
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
+                if event.type == pygame.QUIT:
 
-                waiting = False
+                    pygame.quit()
 
-                return
+                    return
+
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
+
+                    waiting = False
+
+                    return
 
 
 
