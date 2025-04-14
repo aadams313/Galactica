@@ -11,11 +11,11 @@
 - [x] Cross reference the related projects for inspiration
 - [x] Continue working on code 
 - [x] Commit beginning code 
-- [x] Import dictionary words for common passwords
+- [x] Use pygame to get game working
 
 ## Sprint 3
-- [x] Organize code 
-- [x] Create functions for program to have a database of passwords
-- [x] Create PowerPoint slide to present 
-- [x] Have basic program running
-- [x] Complete program
+- [] Organize code 
+- [] Create functions that allow for game to run
+- [] Create PowerPoint slide to present 
+- [] Have basic program running
+- [] Complete program
