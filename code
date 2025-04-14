@@ -104,7 +104,7 @@ class Enemy:
         return self.rect.top > screen_h
 
 
-    def spawn_enemies():
+def spawn_enemies():
 
         return [Enemy(random.randint(0, screen_w - 50), random.randint(-1000, -200)) for _ in range(enemy_num)]
 
@@ -112,68 +112,213 @@ class Enemy:
 
 
 
-    def display_start_screen():
+def display_start_screen():
 
-        screen.fill(bl)
+    screen.fill(bl)
 
-        title_text = large_font.render("Galactica", True, gr)
+    title_text = large_font.render("Galactica", True, gr)
 
-        instructions = [
+    instructions = [
 
-        "Welcome to Galactica!",
+    "Welcome to Galactica!",
 
-        "Navigate using Left/Right arrows.",
+    "Navigate using Left/Right arrows.",
 
-        "Press Space to shoot.",
+    "Press Space to shoot.",
 
-        "Reach 1000 points to win.",
+    "Reach 1000 points to win.",
 
-        "Press Enter to Start"
+    "Press Enter to Start"
 
     ]
 
-
-
-        screen.blit(title_text, (screen_w // 2 - title_text.get_width() // 2, screen_h // 4))
-
-
-
-        y_offset = screen_h // 3
-
-        for line in instructions:
-
-            instruction_text = font.render(line, True, wh)
-
-            screen.blit(instruction_text, (screen_w // 2 - instruction_text.get_width() // 2, y_offset))
-
-            y_offset += 40
+    screen.blit(title_text, (screen_w // 2 - title_text.get_width() // 2, screen_h // 4))
 
 
 
-        pygame.display.flip()
+    y_offset = screen_h // 3
+
+    for line in instructions:
+
+        instruction_text = font.render(line, True, wh)
+
+        screen.blit(instruction_text, (screen_w // 2 - instruction_text.get_width() // 2, y_offset))
+
+        y_offset += 40
 
 
 
-        waiting = True
+    pygame.display.flip()
 
-        while waiting:
 
-            for event in pygame.event.get():
 
-                if event.type == pygame.QUIT:
+    waiting = True
+
+    while waiting:
+
+        for event in pygame.event.get():
+
+            if event.type == pygame.QUIT:
+
+                pygame.quit()
+
+                return
+
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
+
+                waiting = False
+
+                return
+
+def run_game():
+
+    player = Player()
+
+    bullets = []
+
+    enemies = spawn_enemies()
+
+
+
+    score = 0
+
+    clock = pygame.time.Clock()
+
+
+
+    while True:
+
+        clock.tick(fps)
+
+        screen.fill(bl)
+
+
+
+        for event in pygame.event.get():
+
+            if event.type == pygame.QUIT:
+
+                pygame.quit()
+
+                return
+
+            if event.type == pygame.KEYDOWN:
+
+                if event.key == pygame.K_SPACE:
+
+                    bullets.append(Bullet(player.rect.centerx, player.rect.top))
+
+                if event.key == pygame.K_ESCAPE:
 
                     pygame.quit()
 
                     return
 
-                if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
-
-                    waiting = False
-
-                    return
 
 
+        for event in pygame.event.get():
 
+            if event.type == pygame.QUIT:
+
+                pygame.quit()
+
+                return
+
+            if event.type == pygame.KEYDOWN:
+
+                if event.key == pygame.K_SPACE:
+
+                    bullets.append(Bullet(player.rect.centerx, player.rect.top))
+
+
+
+        keys = pygame.key.get_pressed()
+
+        player.move(keys)
+
+
+
+        for bullet in list(bullets):
+
+            bullet.update()
+
+            if bullet.off_screen():
+
+                bullets.remove(bullet)
+
+
+
+        for enemy in list(enemies):
+
+            enemy.update()
+
+            if enemy.off_screen():
+
+                enemy.rect.top = 0
+
+                enemy.rect.x = random.randint(0, screen_w - 50)
+
+
+
+        for bullet in list(bullets):
+
+            for enemy in list(enemies):
+
+                if bullet.rect.colliderect(enemy.rect):
+
+                    bullets.remove(bullet)
+
+                    enemies.remove(enemy)
+
+                    score += 10
+
+                    break
+
+
+
+        if len(enemies) == 0:
+
+            enemies = spawn_enemies()
+
+
+
+        for enemy in enemies:
+
+            if player.rect.colliderect(enemy.rect):
+
+                draw_game_over_screen(score)
+
+                return
+
+
+
+        if score >= w_score:
+
+            display_win_screen(score)
+
+            return
+
+
+
+        pygame.draw.rect(screen, wh, player.rect)
+
+        for bullet in bullets:
+
+            pygame.draw.rect(screen, wh, bullet.rect)
+
+        for enemy in enemies:
+
+            pygame.draw.rect(screen, red, enemy.rect)
+
+
+
+        score_text = font.render(f'Score: {score}', True, wh)
+
+        screen.blit(score_text, (10, 10))
+
+
+
+        pygame.display.flip()
 
 
 
