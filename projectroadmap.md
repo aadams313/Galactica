@@ -14,8 +14,8 @@
 - [x] Use pygame to get game working
 
 ## Sprint 3
-- [] Organize code 
-- [] Create functions that allow for game to run
-- [] Create PowerPoint slide to present 
-- [] Have basic program running
-- [] Complete program
+- [x] Organize code 
+- [x] Create functions that allow for game to run
+- [x] Create PowerPoint slide to present 
+- [x] Have basic program running
+- [x] Complete program
